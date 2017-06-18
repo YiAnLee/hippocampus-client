@@ -23,6 +23,7 @@ import {getMoodIcon} from '../utilities/weather';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import EIcon from 'react-native-vector-icons/Entypo';
 
+
 const { width } = Dimensions.get('window')
 class PostFormScreen extends React.Component {
     static propTypes = {
@@ -47,6 +48,7 @@ class PostFormScreen extends React.Component {
     }
 
     render() {
+        const {navigate} = this.props.navigation;
         const {mood, inputValue, inputDanger} = this.props;
         return (
             <Container>
@@ -61,6 +63,7 @@ class PostFormScreen extends React.Component {
                     </Button></Right>
                 </Header>
                 <Content style={styles.content}>
+                    <Button onPress={() => navigate('Upload')}></Button>
                     <Button
                       title='View Photos'
                       onPress={() => { this.toggleModal(); this.getPhotos() }}
@@ -136,10 +139,10 @@ class PostFormScreen extends React.Component {
      toggleModal = () => {
         this.setState({ modalVisible: !this.state.modalVisible });
       }
-      navigate = () => {
-    const { navigate } = this.props.navigation
-    navigate('ImageBrowser')
-  }
+  //     navigate = () => {
+  //   const { navigate } = this.props.navigation
+  //   navigate('ImageBrowser')
+  // }
     handleGoBack() {
          this.props.navigation.goBack();
     }

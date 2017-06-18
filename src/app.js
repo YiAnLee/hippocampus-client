@@ -17,11 +17,13 @@ import {StackNavigator, NavigationActions, addNavigationHelpers} from 'react-nav
 import TodayScreen from './components/TodayScreen';
 import PostFormScreen from './components/PostFormScreen';
 import ForecastScreen from './components/ForecastScreen';
+import UploadScreen from './components/UploadScreen.js';
 
 const AppNavigator = StackNavigator({
     Today: {screen: TodayScreen},
     Forecast: {screen: ForecastScreen},
-    PostForm: {screen: PostFormScreen}
+    PostForm: {screen: PostFormScreen},
+    Upload: {screen: UploadScreen}
 }, {
     headerMode: 'none'
 });

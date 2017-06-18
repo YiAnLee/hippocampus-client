@@ -34,15 +34,15 @@ export function listPosts(searchText = '', start) {
     });
 }
 
-export function createPost(mood, text) {
+export function createPost(mood, text, uri) {
     let url = `${postBaseUrl}/posts`;
 
     console.log(`Making POST request to: ${url}`);
-    // const file = {
-    //   uri,             // e.g. 'file:///path/to/file/image123.jpg'
-    //   name,            // e.g. 'image123.jpg',
-    //   type             // e.g. 'image/jpg'
-    // }
+    const file = {
+      uri,             // e.g. 'file:///path/to/file/image123.jpg'
+      name,            // e.g. 'image123.jpg',
+      type             // e.g. 'image/jpg'
+    }
 
     return fetch(url, {
         method: 'POST',
@@ -52,7 +52,8 @@ export function createPost(mood, text) {
         },
         body: JSON.stringify({
             mood,
-            text
+            text,
+            uri
         })
     }).then(function(res) {
         if (res.status !== 200)
