@@ -6,16 +6,16 @@ var options = {
   //   {name: 'fb', title: 'Choose Photo from Facebook'},
   // ],
   cancelButtonTitle: "cancel",
+  mediaType: "photo",
     storageOptions: {
-        skipBackup: true
-        // path: 'Documents'
+        skipBackup: true,
+        path: 'images'
     }
 };
 
 const pick = (cb) => {
-    console.log('pick');
+    console.log("pick");
     ImagePicker.showImagePicker(options, (response) => {
-        console.log('tt');
         console.log('res', response);
     if (response.didCancel) {
         console.log('User cancelled photo picker');
@@ -27,6 +27,7 @@ const pick = (cb) => {
         console.log('User tapped custom button: ', response.customButton);
     }
     else {
+        console.log("success Image");
         let source = { uri: response.uri };
         cb(source, response.data, response.fileName);
         }

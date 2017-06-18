@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View,Text, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, Text} from 'react-native';
 import {FAB} from 'native-base';
 
 import MyIcon from "react-native-vector-icons/Entypo";
-import pick from "../api/imageAPI.js"
+import pick from "../api/imageAPI.js";
+import {RNS3} from 'react-native-aws3';
 export default class UploadScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,7 @@ export default class UploadScreen extends React.Component {
 
         // this.handleFabClose = this.handleFabClose.bind(this);
         this.show = this.show.bind(this);
-        // this.upload = this.upload.bind(this);
+        this.upload = this.upload.bind(this);
     }
 
 
@@ -28,7 +29,7 @@ export default class UploadScreen extends React.Component {
 
         let img = this.state.source === null? null:
         <Image source={this.state.source} style={styles.avatar}/>
-
+        console.log("source",this.state.source);
         return (
             <View style={styles.container}>
                 {/*<Fab
@@ -82,7 +83,7 @@ export default class UploadScreen extends React.Component {
         });
     }
 
-    // upload() {
+    upload() {
         // const {profileUsername, profileGender, profileAge, profileRegion} = this.props
         // console.log('profileUsername', profileUsername);
         // RNFetchBlob.fetch('POST', 'http://localhost:8080/api/upload', {
@@ -104,35 +105,35 @@ export default class UploadScreen extends React.Component {
         // .catch((err) => {
         //     console.log(err);
         // });
-        //
-        // const file = {
-        //     uri: this.state.source,
-        //     name: this.state.name,
-        //     type: 'image/jpg'
-        // }
-        //
-        // const options = {
-        //     keyPrefix: 'images/',
-        //     bucket: 'opshion',
-        //     region: 'us-west-2',
-        //     accessKey: 'AKIAJAPWTBWABRDLENSA',
-        //     secretKey: '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',
-        //     successActionStatus: 201
-        // }
-        //
-        // RNS3.put(file, options).then(response => {
-        //     if (response.status !== 201)
-        //         throw new Error("Failed to upload image to S3");
-        //     console.log(response.body);
-        //     console.log('success');
-        // });
-        //
-        // this.setState({
-        //     source: null,
-        //     data: null,
-        //     name: null
-        // });
-    // }
+        console.log("this.state.source",this.state.source);
+        const file = {
+            uri: this.state.source.uri,
+            name: this.state.name,
+            type: 'image/jpg'
+        }
+
+        const options = {
+            keyPrefix: 'images/',
+            bucket: 'opshion',
+            region: 'us-west-2',
+            accessKey: 'AKIAJAPWTBWABRDLENSA',
+            secretKey: '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',
+            successActionStatus: 201
+        }
+
+        RNS3.put(file, options).then(response => {
+            if (response.status !== 201)
+                throw new Error("Failed to upload image to S3");
+            console.log(response.body);
+            console.log('success');
+        });
+
+        this.setState({
+            source: null,
+            data: null,
+            name: null
+        });
+    }
 
     // handleFabClose() {
     //     this.setState({
@@ -142,7 +143,8 @@ export default class UploadScreen extends React.Component {
 };
 const styles = {
     avatar:{
-
+        width:150,
+        height:150
     },
 
     container: {

@@ -9,7 +9,7 @@ import {
   Dimensions,
   ScrollView
 } from 'react-native';
-import Share from 'react-native-share'
+
 
 
 import {connect} from 'react-redux';
@@ -74,7 +74,7 @@ class PostFormScreen extends React.Component {
                         style: styles.mood
                     })}*/}
                     <Item regular error={inputDanger} style={styles.item}>
-                        {/* <Label>What's on your mind?</Label> */}
+                         <Label>What's on your mind?</Label>
                         <Input autoFocus multiline maxLength={1024} placeholder="What's on your mind?"
                              style={styles.input} value={inputValue}
                              onChange={this.handleInputChange} />
@@ -139,10 +139,10 @@ class PostFormScreen extends React.Component {
      toggleModal = () => {
         this.setState({ modalVisible: !this.state.modalVisible });
       }
-  //     navigate = () => {
-  //   const { navigate } = this.props.navigation
-  //   navigate('ImageBrowser')
-  // }
+      navigate = () => {
+    const { navigate } = this.props.navigation
+    navigate('ImageBrowser')
+  }
     handleGoBack() {
          this.props.navigation.goBack();
     }
