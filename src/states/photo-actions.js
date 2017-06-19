@@ -1,14 +1,9 @@
 /* Posts */
 
 const initPostState = {
-    listingPosts: false,
-    listingMorePosts: undefined, // id of post from which to start
-    posts: [],
-    hasMore: true,
-    creatingPost: false,
-    creatingVote: false
+
 };
-export function post(state = initPostState, action) {
+export function photo(state = initPostState, action) {
     switch (action.type) {
         case '@POST/START_LIST_POSTS':
             return {
@@ -90,8 +85,7 @@ export function post(state = initPostState, action) {
 const initPostFormState = {
     inputValue: '',
     inputDanger: false,
-    mood: 'na',
-    uri: ''
+    mood: 'na'
 };
 
 export function postForm(state = initPostFormState, action) {
@@ -110,11 +104,6 @@ export function postForm(state = initPostFormState, action) {
             return {
                 ...state,
                 mood: action.mood
-            };
-        case '@POST_FORM/SELECT_PHOTO':
-            return {
-                ...state,
-                uri: action.uri
             };
         default:
             return state;

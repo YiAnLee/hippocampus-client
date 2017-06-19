@@ -49,6 +49,7 @@ class PostItem extends React.Component {
                         <Text style={styles.text}>{text}</Text>
                     </View>
                 </View>
+                {/*<Image source={{uri: p.node.image.uri}}/>*/}
                 <View style={styles.vote}>
                     {clearVotes > 0 && <View style={styles.voteResult}>
                         {getMoodIcon({group: 'Clear', style: styles.voteResultIcon})}

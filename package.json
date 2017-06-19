@@ -12,6 +12,10 @@
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
+    "react-native-aws3": "0.0.8",
+    "react-native-fab": "*",
+    "react-native-fetch-blob": "*",
+    "react-native-filesystem": "^0.1.0",
     "react-native-image-picker": "^0.26.3",
     "react-native-infinite-scroll-view": "^0.4.2",
     "react-native-vector-icons": "^4.1.1",
@@ -19,10 +23,7 @@
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
-    "react-native-fab": "*",
-    "react-native-fetch-blob":"*",
-    "react-native-aws3":"0.0.8"
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",

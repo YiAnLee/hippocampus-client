@@ -7,7 +7,8 @@ import {
   CameraRoll,
   Image,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Text
 } from 'react-native';
 
 
@@ -16,13 +17,18 @@ import {connect} from 'react-redux';
 import {createPost, input, inputDanger} from '../states/post-actions';
 import {setToast} from '../states/toast';
 
-import {Container, Header, Content, Title, Left, Right, Body, Icon, Button, Item, Label, Input} from 'native-base';
+
+
+
+import {Container, Header, Content, Title, Left, Right, Body, Icon, Button, Item, Label, Input, TouchableOpacity} from 'native-base';
 import appColors from '../styles/colors';
 import {getMoodIcon} from '../utilities/weather';
 
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import EIcon from 'react-native-vector-icons/Entypo';
 
+import pick from "../api/imageAPI.js";
+import MyIcon from "react-native-vector-icons/Entypo";
 
 const { width } = Dimensions.get('window')
 class PostFormScreen extends React.Component {
@@ -39,10 +45,17 @@ class PostFormScreen extends React.Component {
         this.handleGoBack = this.handleGoBack.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleCreatPost = this.handleCreatPost.bind(this);
+
+        this.show = this.show.bind(this);
+
+
         this.state = {
             modalVisible: false,
             photos: [],
-            index: null
+            index: null,
+            source: null,
+            data: null,
+            name: null
           }
 
     }
@@ -50,6 +63,9 @@ class PostFormScreen extends React.Component {
     render() {
         const {navigate} = this.props.navigation;
         const {mood, inputValue, inputDanger} = this.props;
+        let img = this.state.source === null? null:
+        <Image source={this.state.source} style={styles.avatar}/>
+
         return (
             <Container>
                 <Header>
@@ -63,7 +79,12 @@ class PostFormScreen extends React.Component {
                     </Button></Right>
                 </Header>
                 <Content style={styles.content}>
-                    <Button onPress={() => navigate('Upload')}></Button>
+
+
+
+                    {/*<Button onPress={() => navigate('Upload')}></Button>*/}
+
+
                     <Button
                       title='View Photos'
                       onPress={() => { this.toggleModal(); this.getPhotos() }}
@@ -74,7 +95,7 @@ class PostFormScreen extends React.Component {
                         style: styles.mood
                     })}*/}
                     <Item regular error={inputDanger} style={styles.item}>
-                         <Label>What's on your mind?</Label>
+                         {/*<Label>What's on your mind?</Label>*/}
                         <Input autoFocus multiline maxLength={1024} placeholder="What's on your mind?"
                              style={styles.input} value={inputValue}
                              onChange={this.handleInputChange} />
@@ -86,7 +107,7 @@ class PostFormScreen extends React.Component {
                      transparent={false}
                      visible={this.state.modalVisible}
                      onRequestClose={() => console.log('closed')}
-                   >
+                    >
                      <View style={styles.modalContainer}>
                        <Button
                          title='Close'
@@ -110,6 +131,7 @@ class PostFormScreen extends React.Component {
                                    }}
                                    source={{uri: p.node.image.uri}}
                                  />
+
                                </TouchableHighlight>
                              )
                            })
@@ -118,10 +140,30 @@ class PostFormScreen extends React.Component {
 
                      </View>
                    </Modal>
+
+                   <Button onPress={this.show}>
+                       <Text>Select a Photo</Text>
+                   </Button>
+                   {/*<TouchableOpacity onPress={this.upload}>
+                       <Text>Upload a Photo</Text>
+                   </TouchableOpacity>*/}
+                   {img}
+
                 </Content>
             </Container>
         );
     }
+    show() {
+        pick((source, data, name) => {
+            this.setState({
+                source: source,
+                data: data,
+                name: name
+            });
+        });
+    }
+
+
     setIndex = (index) => {
    if (index === this.state.index) {
      index = null
@@ -159,17 +201,26 @@ class PostFormScreen extends React.Component {
         const {mood, inputValue, dispatch} = this.props;
         const {goBack} = this.props.navigation;
         if (inputValue) {
-            dispatch(createPost(mood, inputValue)).then(() => {
+            dispatch(createPost(mood, inputValue, source)).then(() => {
                 dispatch(setToast('Posted.'));
             });
             goBack();
         } else {
             dispatch(inputDanger(true));
         }
+        this.setState({
+            source: null,
+            data: null,
+            name: null
+        });
     }
 }
 
 const styles = {
+    avatar:{
+        width:150,
+        height:150
+    },
     content: {
         backgroundColor: appColors.primaryLight
     },

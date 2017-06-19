@@ -3,6 +3,7 @@ package com.weathermoodmobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.benwixen.rnfilesystem.RNFileSystemPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,6 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFileSystemPackage(),
             new ImagePickerPackage(),
             new VectorIconsPackage()
       );

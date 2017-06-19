@@ -83,11 +83,11 @@ export function listMorePosts(searchText, start) {
     };
 };
 
-export function createPost(mood, text) {
+export function createPost(mood, text ,uri) {
     return (dispatch, getState) => {
         dispatch(startCreatePost());
 
-        return createPostFromApi(mood, text).then(post => {
+        return createPostFromApi(mood, text, uri).then(post => {
             dispatch(endCreatePost(post));
         }).catch(err => {
             dispatch(endCreatePost())
@@ -129,6 +129,13 @@ export function selectMood(mood) {
     return {
         type: '@POST_FORM/SELECT_MOOD',
         mood
+    };
+};
+
+export function selectPhoto(uri) {
+    return {
+        type: '@POST_FORM/SELECT_PHOTO',
+        uri
     };
 };
 

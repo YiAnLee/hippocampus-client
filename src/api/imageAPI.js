@@ -29,6 +29,7 @@ const pick = (cb) => {
     else {
         console.log("success Image");
         let source = { uri: response.uri };
+        // console.log("success Image",response.uri )
         cb(source, response.data, response.fileName);
         }
     });

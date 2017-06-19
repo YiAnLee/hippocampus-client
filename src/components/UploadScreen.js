@@ -105,7 +105,7 @@ export default class UploadScreen extends React.Component {
         // .catch((err) => {
         //     console.log(err);
         // });
-        console.log("this.state.source",this.state.source);
+
         const file = {
             uri: this.state.source.uri,
             name: this.state.name,
@@ -114,7 +114,7 @@ export default class UploadScreen extends React.Component {
 
         const options = {
             keyPrefix: 'images/',
-            bucket: 'opshion',
+            bucket: 'hippocampus-photos',
             region: 'us-west-2',
             accessKey: 'AKIAJAPWTBWABRDLENSA',
             secretKey: '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',
@@ -124,8 +124,10 @@ export default class UploadScreen extends React.Component {
         RNS3.put(file, options).then(response => {
             if (response.status !== 201)
                 throw new Error("Failed to upload image to S3");
-            console.log(response.body);
-            console.log('success');
+            // else
+            //     console.log("RNS3 success")
+            // console.log(response.body);
+
         });
 
         this.setState({
