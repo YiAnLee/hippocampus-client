@@ -83,15 +83,17 @@ export function listMorePosts(searchText, start) {
     };
 };
 
-export function createPost(mood, text ,uri) {
+export function createPost(uri, mood, text) {
     return (dispatch, getState) => {
         dispatch(startCreatePost());
 
-        return createPostFromApi(mood, text, uri).then(post => {
+        return createPostFromApi(uri, mood, text).then(post => {
+            console.log('cratepostfromapi',post);
             dispatch(endCreatePost(post));
         }).catch(err => {
             dispatch(endCreatePost())
             console.error('Error creating post', err);
+            console.log('here');
         });
     };
 };

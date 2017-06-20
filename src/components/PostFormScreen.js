@@ -17,9 +17,6 @@ import {connect} from 'react-redux';
 import {createPost, input, inputDanger} from '../states/post-actions';
 import {setToast} from '../states/toast';
 
-
-
-
 import {Container, Header, Content, Title, Left, Right, Body, Icon, Button, Item, Label, Input, TouchableOpacity} from 'native-base';
 import appColors from '../styles/colors';
 import {getMoodIcon} from '../utilities/weather';
@@ -30,12 +27,15 @@ import EIcon from 'react-native-vector-icons/Entypo';
 import pick from "../api/imageAPI.js";
 import MyIcon from "react-native-vector-icons/Entypo";
 
+import {selectPhoto} from '../states/post-actions';
+
 const { width } = Dimensions.get('window')
 class PostFormScreen extends React.Component {
     static propTypes = {
         navigation: PropTypes.object.isRequired,
         mood: PropTypes.string.isRequired,
         inputValue: PropTypes.string.isRequired,
+        uri: PropTypes.string.isRequired,
         inputDanger: PropTypes.bool.isRequired
     };
 
@@ -62,7 +62,7 @@ class PostFormScreen extends React.Component {
 
     render() {
         const {navigate} = this.props.navigation;
-        const {mood, inputValue, inputDanger} = this.props;
+        const {mood, inputValue, inputDanger, uri} = this.props;
         let img = this.state.source === null? null:
         <Image source={this.state.source} style={styles.avatar}/>
 
@@ -161,6 +161,7 @@ class PostFormScreen extends React.Component {
                 name: name
             });
         });
+        this.props.dispatch(selectPhoto(this.state.source));
     }
 
 
@@ -201,7 +202,7 @@ class PostFormScreen extends React.Component {
         const {mood, inputValue, dispatch} = this.props;
         const {goBack} = this.props.navigation;
         if (inputValue) {
-            dispatch(createPost(mood, inputValue, source)).then(() => {
+            dispatch(createPost(this.state.source.uri, mood, inputValue)).then(() => {
                 dispatch(setToast('Posted.'));
             });
             goBack();

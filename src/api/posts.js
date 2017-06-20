@@ -1,5 +1,5 @@
 // Develop server URL
-// const postBaseUrl = 'http://localhost:3000/api';
+const postBaseUrl = 'http://localhost:3000/api1';
 
 // Staging server URL
 // const postBaseUrl = 'http://weathermood-staging.us-west-2.elasticbeanstalk.com/api';
@@ -8,7 +8,7 @@
 // const postBaseUrl = 'http://weathermood-production.us-west-2.elasticbeanstalk.com/api';
  // as3-verfinal-dev.us-west-2.elasticbeanstalk.com
 // const postBaseUrl = 'http://as3-verfinal-dev.us-west-2.elasticbeanstalk.com/api1';
-const postBaseUrl = 'http://hippocampus-dev.us-west-2.elasticbeanstalk.com/api1';
+// const postBaseUrl = 'http://hippocampus-dev.us-west-2.elasticbeanstalk.com/api1';
 
 export function listPosts(searchText = '', start) {
     let url = `${postBaseUrl}/posts`;
@@ -34,15 +34,17 @@ export function listPosts(searchText = '', start) {
     });
 }
 
-export function createPost(mood, text, uri) {
+export function createPost(uri, mood, text) {
+    uri="test";
+    console.log("creact post, uri:",uri,"mood",mood)
     let url = `${postBaseUrl}/posts`;
 
     console.log(`Making POST request to: ${url}`);
-    const file = {
-      uri,             // e.g. 'file:///path/to/file/image123.jpg'
-      name,            // e.g. 'image123.jpg',
-      type             // e.g. 'image/jpg'
-    }
+    // const file = {
+    //   uri,             // e.g. 'file:///path/to/file/image123.jpg'
+    //   name,            // e.g. 'image123.jpg',
+    //   type             // e.g. 'image/jpg'
+    // }
 
     return fetch(url, {
         method: 'POST',
@@ -51,14 +53,16 @@ export function createPost(mood, text, uri) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            uri,
             mood,
             text,
-            uri
         })
     }).then(function(res) {
         if (res.status !== 200)
             throw new Error(`Unexpected response code: ${res.status}`);
-
+        else {
+            console.log("probably success?")
+        }
         return res.json();
     });
 }
