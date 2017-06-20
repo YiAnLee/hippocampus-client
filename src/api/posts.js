@@ -1,5 +1,5 @@
 // Develop server URL
-const postBaseUrl = 'http://localhost:3000/api1';
+// const postBaseUrl = 'http://localhost:3000/api1';
 
 // Staging server URL
 // const postBaseUrl = 'http://weathermood-staging.us-west-2.elasticbeanstalk.com/api';
@@ -7,8 +7,10 @@ const postBaseUrl = 'http://localhost:3000/api1';
 // Production server URL
 // const postBaseUrl = 'http://weathermood-production.us-west-2.elasticbeanstalk.com/api';
  // as3-verfinal-dev.us-west-2.elasticbeanstalk.com
-// const postBaseUrl = 'http://as3-verfinal-dev.us-west-2.elasticbeanstalk.com/api1';
+const postBaseUrl = 'http://as3-verfinal-dev.us-west-2.elasticbeanstalk.com/api1';
 // const postBaseUrl = 'http://hippocampus-dev.us-west-2.elasticbeanstalk.com/api1';
+// const postBaseUrl = 'http://hippocampus.us-west-2.elasticbeanstalk.com/api1';
+
 
 export function listPosts(searchText = '', start) {
     let url = `${postBaseUrl}/posts`;
@@ -34,9 +36,9 @@ export function listPosts(searchText = '', start) {
     });
 }
 
-export function createPost(uri, mood, text) {
-    uri="test";
-    console.log("creact post, uri:",uri,"mood",mood)
+export function createPost(source, mood, text) {
+    AsyncStorage.setItem('photo source', source);
+    console.log("creact post, source:",source)
     let url = `${postBaseUrl}/posts`;
 
     console.log(`Making POST request to: ${url}`);
@@ -53,7 +55,7 @@ export function createPost(uri, mood, text) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            uri,
+
             mood,
             text,
         })

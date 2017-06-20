@@ -155,13 +155,14 @@ class PostFormScreen extends React.Component {
     }
     show() {
         pick((source, data, name) => {
+
             this.setState({
                 source: source,
                 data: data,
                 name: name
             });
         });
-        this.props.dispatch(selectPhoto(this.state.source));
+
     }
 
 
@@ -202,13 +203,14 @@ class PostFormScreen extends React.Component {
         const {mood, inputValue, dispatch} = this.props;
         const {goBack} = this.props.navigation;
         if (inputValue) {
-            dispatch(createPost(this.state.source.uri, mood, inputValue)).then(() => {
+            dispatch(createPost(this.state.source, mood, inputValue)).then(() => {
                 dispatch(setToast('Posted.'));
             });
             goBack();
         } else {
             dispatch(inputDanger(true));
         }
+        this.props.dispatch(selectPhoto(this.state.source));
         this.setState({
             source: null,
             data: null,

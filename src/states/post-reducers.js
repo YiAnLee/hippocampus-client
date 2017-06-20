@@ -91,7 +91,7 @@ const initPostFormState = {
     inputValue: '',
     inputDanger: false,
     mood: 'na',
-    uri: ''
+    source: null
 };
 
 export function postForm(state = initPostFormState, action) {
@@ -112,9 +112,10 @@ export function postForm(state = initPostFormState, action) {
                 mood: action.mood
             };
         case '@POST_FORM/SELECT_PHOTO':
+            console.log("select photos",action.source);
             return {
                 ...state,
-                uri: action.uri
+                source: action.source
             };
         default:
             return state;

@@ -83,11 +83,11 @@ export function listMorePosts(searchText, start) {
     };
 };
 
-export function createPost(uri, mood, text) {
+export function createPost(source, mood, text) {
     return (dispatch, getState) => {
         dispatch(startCreatePost());
 
-        return createPostFromApi(uri, mood, text).then(post => {
+        return createPostFromApi(source, mood, text).then(post => {
             console.log('cratepostfromapi',post);
             dispatch(endCreatePost(post));
         }).catch(err => {
@@ -96,6 +96,21 @@ export function createPost(uri, mood, text) {
             console.log('here');
         });
     };
+    function _createPost(mood, text, image) {
+        const newPost = {
+            id: uuid(),
+            mood: mood,
+            text: text,
+            ts: moment().unix(),
+            image: image
+        };
+        const posts = [
+            newPost,
+            ..._listPosts()
+        ];
+        localStorage.setItem(postKey, JSON.stringify(posts));
+        return newPost;
+    }
 };
 
 export function createVote(id, mood) {
@@ -134,10 +149,10 @@ export function selectMood(mood) {
     };
 };
 
-export function selectPhoto(uri) {
+export function selectPhoto(source) {
     return {
         type: '@POST_FORM/SELECT_PHOTO',
-        uri
+        source
     };
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, StyleSheet, Text, Platform} from 'react-native';
+import {View, StyleSheet, Text, Platform, Image} from 'react-native';
 
 import {connect} from 'react-redux';
 import {createVote, setTooltipToggle, toggleTooltip} from '../states/post-actions';
@@ -36,9 +36,11 @@ class PostItem extends React.Component {
     }
 
     render() {
-        const {id, mood, text, ts, clearVotes, cloudsVotes, drizzleVotes, rainVotes, thunderVotes, snowVotes, windyVotes, tooltipOpen} = this.props;
-
+        const {id, mood, text, ts, clearVotes, cloudsVotes, drizzleVotes, rainVotes, thunderVotes, snowVotes, windyVotes, tooltipOpen, source} = this.props;
+        let img = source === null? null:
+        <Image source={source} style={style_avatar.avatar}/>
         return (
+
             <ListItem onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.listItem)}>
                 <View style={styles.post}>
                     <View style={styles.mood}>{
@@ -49,8 +51,8 @@ class PostItem extends React.Component {
                         <Text style={styles.text}>{text}</Text>
                     </View>
                 </View>
-                {/*<Image source={{uri: p.node.image.uri}}/>*/}
-                <View style={styles.vote}>
+                {img}
+                {/*<View style={styles.vote}>
                     {clearVotes > 0 && <View style={styles.voteResult}>
                         {getMoodIcon({group: 'Clear', style: styles.voteResultIcon})}
                         <Text style={styles.voteResultText}>{clearVotes}</Text>
@@ -80,7 +82,7 @@ class PostItem extends React.Component {
                         <Text style={styles.voteResultText}>{windyVotes}</Text>
                     </View>}
                     <Icon name='plus' style={StyleSheet.flatten(styles.votePlus)} />
-                </View>
+                </View>*/}
                 {tooltipOpen &&
                     <View style={styles.tooltip} onPress={this.handleTooltipToggle}>
                         {getMoodIcon({
@@ -118,14 +120,18 @@ class PostItem extends React.Component {
                             onPress: () => this.handleVote('Windy'),
                             style: styles.tooltipIcon
                         })}
+
                     </View>
                 }
+
             </ListItem>
         );
     }
 
     handleTooltipToggle() {
         this.props.dispatch(toggleTooltip(this.props.id));
+        console.log('toggle', this.props.source);
+
     }
 
     handleVote(vote) {
@@ -142,7 +148,14 @@ class PostItem extends React.Component {
  * StyleSheet makes it possible for a component to refer to a style object by ID
  * instead of creating a new style object every time.
  */
+ const style_avatar={
+     avatar:{
+     width:150,
+     height:150
+ }}
+
 const styles = StyleSheet.create({
+
     listItem: {
         flexDirection: 'column',
         alignItems: 'stretch',
@@ -219,5 +232,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect((state, ownProps) => ({
-    tooltipOpen: state.postItem.tooltipOpen[ownProps.id] ? true : false
+    tooltipOpen: state.postItem.tooltipOpen[ownProps.id] ? true : false,
+    source: state.postForm.source
 }))(PostItem);
